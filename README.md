@@ -23,4 +23,4 @@ FROM dan0n/flask-alpine
 COPY ./app /app
 ```
 
-Additional instructions you can look at [**base repository**](https://github.com/tiangolo/uwsgi-nginx-flask-docker/).
+Additional instructions you can see at [**base repository**](https://github.com/tiangolo/uwsgi-nginx-flask-docker/).
