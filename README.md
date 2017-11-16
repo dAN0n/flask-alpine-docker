@@ -7,7 +7,7 @@
 
 This [**Docker**](https://www.docker.com/) image allows you to create [**Flask**](http://flask.pocoo.org/) web applications in [**Python**](https://www.python.org/) that run with [**uWSGI**](https://uwsgi-docs.readthedocs.org/en/latest/) and [**Nginx**](http://nginx.org/en/) in a single container.
 
-This image is port of [**tiangolo/uwsgi-nginx-flask**](https://hub.docker.com/r/tiangolo/uwsgi-nginx-flask/) image on [**Alpine Linux**]([**tiangolo/uwsgi-nginx-flask**](https://alpinelinux.org/).
+This image is port of [**tiangolo/uwsgi-nginx-flask**](https://hub.docker.com/r/tiangolo/uwsgi-nginx-flask/) image on [**Alpine Linux**](https://alpinelinux.org/).
 
 **GitHub repo**: <https://github.com/dAN0n/flask-alpine-docker/>
 
@@ -23,4 +23,4 @@ FROM dan0n/flask-alpine
 COPY ./app /app
 ```
 
-Additional instructions you can look at [**base repository**](https://github.com/tiangolo/uwsgi-nginx-flask-docker/)
+Additional instructions you can look at [**base repository**](https://github.com/tiangolo/uwsgi-nginx-flask-docker/).
