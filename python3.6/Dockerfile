@@ -14,25 +14,12 @@ RUN set -ex \
         gcc \
         libc-dev \
         linux-headers \
-        mariadb-dev \
 # Update pip
     && pip install -U pip \
-# Install uWSGI, flask and mysqlclient (using mariadb-dev package)
-    && pip install uwsgi mysqlclient flask \
-# Save mariadb-dev client libs from deletion to /tmp directory
-    && cp /usr/lib/libmysqlclient.a /usr/lib/libmysqlclient.so.18.0.0 /usr/bin/mysql_config /tmp \
-    && cp -ar /usr/include/mysql /tmp \
+# Install flask and uWSGI
+    && pip install flask uwsgi \
 # Remove build time dependencies
     && apk del .build-deps \
-# Restore mariadb-dev client libs from /tmp directory
-    && mv /tmp/libmysqlclient.a /tmp/libmysqlclient.so.18.0.0 /usr/lib \
-    && mv /tmp/mysql /usr/include/mysql \
-    && mv /tmp/mysql_config /usr/bin \
-# Restore symlinks
-    && ln -s /usr/lib/libmysqlclient.so.18.0.0 /usr/lib/libmysqlclient.so.18 \
-    && ln -s /usr/lib/libmysqlclient.so.18 /usr/lib/libmysqlclient.so \
-    && ln -s /usr/lib/libmysqlclient.so /usr/lib/libmysqlclient_r.so \
-    && ln -s /usr/lib/libmysqlclient.a /usr/lib/libmysqlclient_r.a \
 # Remove cache files
     && rm -rf /var/cache/apk/*
 
