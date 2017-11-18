@@ -11,6 +11,11 @@ STATIC_PATH=${STATIC_PATH:-'/app/static'}
 # If STATIC_INDEX is 1, serve / with /static/index.html directly (or the static URL configured)
 STATIC_INDEX=${STATIC_INDEX:-0}
 
+# Which uWSGI .ini file should be used, to make it customizable
+if [ "$UWSGI_INI" = "" ]; then
+    export UWSGI_INI='/app/uwsgi.ini'
+fi
+
 # Set maximum upload file size
 sed -i -E "s/(client_max_body_size) 1m;/\1 $NGINX_MAX_UPLOAD;/" /etc/nginx/nginx.conf
 

@@ -1,6 +1,6 @@
 FROM python:alpine3.6
 
-MAINTAINER Zobkov Dmitry <dan0na@me.com>
+LABEL maintainer="Zobkov Dmitry <dan0na@me.com>"
 
 # PACKAGE INSTALLATION #
 
@@ -26,7 +26,10 @@ RUN set -ex \
 # Using ports
 EXPOSE 80 443
 
-# NGINX CONFIGURATION #
+# CONFIGURATION #
+
+# Copy config files
+COPY ./config /config
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
@@ -35,34 +38,28 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && echo "daemon off;" >> /etc/nginx/nginx.conf \
 # Remove default configuration from Nginx
     && rm /etc/nginx/conf.d/default.conf \
-# Create directory for .pid file
-    && mkdir -p /run/nginx
-
-# CONFIGURATION FILES #
-
-# Copy config files
-COPY ./config /config
+# Create directory for Nginx .pid file
+    && mkdir -p /run/nginx \
 # Move custom Nginx config
-RUN mv /config/nginx.conf /etc/nginx/conf.d \
+    && mv /config/nginx.conf /etc/nginx/conf.d \
 # Create directories for uWSGI and supervisord configs
     && mkdir /etc/uwsgi /etc/supervisor.d \
 # Move the base uWSGI ini file to enable default dynamic uwsgi process number
     && mv /config/uwsgi.ini /etc/uwsgi \
 # Move custom Supervisord config
     && mv /config/supervisord.ini /etc/supervisor.d \
-# Exec the entrypoint that will generate Nginx additional configs
+# Make the entrypoint executable
     && chmod +x /config/entrypoint.sh
+
+# Exec the entrypoint that will generate Nginx additional configs
+# Check this script for used ENV variables
 ENTRYPOINT ["/config/entrypoint.sh"]
-
-# uWSGI CONFIGURATION #
-
-# Which uWSGI .ini file should be used, to make it customizable
-ENV UWSGI_INI /app/uwsgi.ini
 
 # Add demo app
 COPY ./app /app
 WORKDIR /app
 
-# SUPERVISORD EXEC #
+# MAIN PROCESS EXEC #
 
+# Restart this command if you override it
 CMD ["/usr/bin/supervisord"]
