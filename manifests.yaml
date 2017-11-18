@@ -1,0 +1,12 @@
+---
+image: dan0n/flask-alpine:latest
+tags: ['python3.6', 'python3']
+manifests:
+  - image: dan0n/flask-alpine:amd64-python3.6
+    platform:
+      architecture: amd64
+      os: linux
+  - image: dan0n/flask-alpine:arm-python3.6
+    platform:
+      architecture: arm
+      os: linux
