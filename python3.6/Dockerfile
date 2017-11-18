@@ -5,7 +5,7 @@ MAINTAINER Zobkov Dmitry <dan0na@me.com>
 # PACKAGE INSTALLATION #
 
 RUN set -ex \
-# Install nginx and supervisord
+# Install Nginx and supervisord
     && apk add --no-cache --update \
         nginx \
         supervisor \
@@ -33,12 +33,10 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log \
 # Make nginx run on the foreground
     && echo "daemon off;" >> /etc/nginx/nginx.conf \
-# Remove default configuration from nginx
+# Remove default configuration from Nginx
     && rm /etc/nginx/conf.d/default.conf \
 # Create directory for .pid file
     && mkdir -p /run/nginx
-# Copy the modified Nginx conf
-COPY nginx.conf /etc/nginx/conf.d/
 
 # By default, allow unlimited file sizes, modify it to limit the file sizes
 ENV NGINX_MAX_UPLOAD=0 \
@@ -50,15 +48,24 @@ ENV NGINX_MAX_UPLOAD=0 \
 # If STATIC_INDEX is 1, serve / with /static/index.html directly (or the static URL configured)
     STATIC_INDEX=0
 
-# Copy the entrypoint that will generate Nginx additional configs
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+# CONFIGURATION FILES #
+
+# Copy config files
+COPY ./config /config
+# Move custom Nginx config
+RUN mv /config/nginx.conf /etc/nginx/conf.d \
+# Create directories for uWSGI and supervisord configs
+    && mkdir /etc/uwsgi /etc/supervisor.d \
+# Move the base uWSGI ini file to enable default dynamic uwsgi process number
+    && mv /config/uwsgi.ini /etc/uwsgi \
+# Move custom Supervisord config
+    && mv /config/supervisord.ini /etc/supervisor.d \
+# Exec the entrypoint that will generate Nginx additional configs
+    && chmod +x /config/entrypoint.sh
+ENTRYPOINT ["/config/entrypoint.sh"]
 
 # uWSGI CONFIGURATION #
 
-# Copy the base uWSGI ini file to enable default dynamic uwsgi process number
-COPY uwsgi.ini /etc/uwsgi/
 # Which uWSGI .ini file should be used, to make it customizable
 ENV UWSGI_INI /app/uwsgi.ini
 
@@ -66,9 +73,6 @@ ENV UWSGI_INI /app/uwsgi.ini
 COPY ./app /app
 WORKDIR /app
 
-# SUPERVISORD CONFIGURATION #
-
-# Custom Supervisord config
-COPY supervisord.ini /etc/supervisor.d/
+# SUPERVISORD EXEC #
 
 CMD ["/usr/bin/supervisord"]
