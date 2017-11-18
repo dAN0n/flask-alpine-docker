@@ -41,14 +41,14 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 COPY nginx.conf /etc/nginx/conf.d/
 
 # By default, allow unlimited file sizes, modify it to limit the file sizes
-ENV NGINX_MAX_UPLOAD 0 \
+ENV NGINX_MAX_UPLOAD=0 \
 # URL under which static (not modified by Python) files will be requested
 # They will be served by Nginx directly, without being handled by uWSGI
-    STATIC_URL /static \
+    STATIC_URL=/static \
 # Absolute path in where the static files will be
-    STATIC_PATH /app/static \
+    STATIC_PATH=/app/static \
 # If STATIC_INDEX is 1, serve / with /static/index.html directly (or the static URL configured)
-    STATIC_INDEX 0
+    STATIC_INDEX=0
 
 # Copy the entrypoint that will generate Nginx additional configs
 COPY entrypoint.sh /entrypoint.sh
