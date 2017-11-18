@@ -38,16 +38,6 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 # Create directory for .pid file
     && mkdir -p /run/nginx
 
-# By default, allow unlimited file sizes, modify it to limit the file sizes
-ENV NGINX_MAX_UPLOAD=0 \
-# URL under which static (not modified by Python) files will be requested
-# They will be served by Nginx directly, without being handled by uWSGI
-    STATIC_URL=/static \
-# Absolute path in where the static files will be
-    STATIC_PATH=/app/static \
-# If STATIC_INDEX is 1, serve / with /static/index.html directly (or the static URL configured)
-    STATIC_INDEX=0
-
 # CONFIGURATION FILES #
 
 # Copy config files
