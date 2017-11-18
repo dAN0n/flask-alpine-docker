@@ -58,7 +58,7 @@ ENTRYPOINT ["/entrypoint.sh"]
 # uWSGI CONFIGURATION #
 
 # Copy the base uWSGI ini file to enable default dynamic uwsgi process number
-COPY uwsgi_base.ini /etc/uwsgi/uwsgi.ini
+COPY uwsgi.ini /etc/uwsgi/
 # Which uWSGI .ini file should be used, to make it customizable
 ENV UWSGI_INI /app/uwsgi.ini
 
@@ -69,6 +69,6 @@ WORKDIR /app
 # SUPERVISORD CONFIGURATION #
 
 # Custom Supervisord config
-COPY supervisord.conf /etc/supervisor.d/supervisord.ini
+COPY supervisord.ini /etc/supervisor.d/
 
 CMD ["/usr/bin/supervisord"]
