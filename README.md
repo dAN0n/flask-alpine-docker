@@ -1,11 +1,11 @@
 ## Supported tags and respective `Dockerfile` links
 
-* [`python3`, `python3.6`, `latest` _(Dockerfile)_](https://github.com/dAN0n/flask-alpine-docker/blob/master/python3.6/Dockerfile)
+* [`python3`, `python3.6`, `amd64-python3.6`, `arm-python3.6`, `latest` _(Dockerfile)_](https://github.com/dAN0n/flask-alpine-docker/blob/master/python3.6/Dockerfile)
 
 # flask-alpine
 **Docker** image with **uWSGI** and **Nginx** for **Flask** web applications in **Python 3.6** running in a single container based on **Alpine Linux**.
 
-This [**Docker**](https://www.docker.com/) image allows you to create [**Flask**](http://flask.pocoo.org/) web applications in [**Python**](https://www.python.org/) that run with [**uWSGI**](https://uwsgi-docs.readthedocs.org/en/latest/) and [**Nginx**](http://nginx.org/en/) in a single container.
+This [**Docker**](https://www.docker.com/) image allows you to create [**Flask**](http://flask.pocoo.org/) web applications in [**Python**](https://www.python.org/) that run with [**uWSGI**](https://uwsgi-docs.readthedocs.org/en/latest/) and [**Nginx**](http://nginx.org/en/) in a single container. Image can be used in **amd64** and **ARM** architectures.
 
 This image is port of [**tiangolo/uwsgi-nginx-flask**](https://hub.docker.com/r/tiangolo/uwsgi-nginx-flask/) image on [**Alpine Linux**](https://alpinelinux.org/).
 
