@@ -42,11 +42,6 @@ COPY nginx.conf /etc/nginx/conf.d/
 # By default, allow unlimited file sizes, modify it to limit the file sizes
 ENV NGINX_MAX_UPLOAD 0
 
-# Copy the entrypoint that will generate Nginx additional configs
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
-
 # URL under which static (not modified by Python) files will be requested
 # They will be served by Nginx directly, without being handled by uWSGI
 ENV STATIC_URL /static
@@ -54,6 +49,11 @@ ENV STATIC_URL /static
 ENV STATIC_PATH /app/static
 # If STATIC_INDEX is 1, serve / with /static/index.html directly (or the static URL configured)
 ENV STATIC_INDEX 0
+
+# Copy the entrypoint that will generate Nginx additional configs
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
 # uWSGI CONFIGURATION #
 
